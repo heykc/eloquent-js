@@ -49,3 +49,44 @@ const beanCounting = () => {
   console.log(countCharRegex("kakkerlak", "k"));
   // → 4
 };
+
+const closure = () => {
+  const player = (_name, _atk = 10, _def = 10) => {
+    const name = _name;
+    const def = _def;
+    const atk = _atk;
+    let hp = 100;
+    
+    const attack = (player) => {
+      const totDamage = atk - player.def;
+      player.damage(totDamage < 0 ? 0 : totDamage);
+      console.log(`${name} attacks ${player.name} for ${totDamage}!`);
+    };
+
+    const status = () => {
+      console.log(`${name}'s health is at ${hp}.`);
+    };
+    
+    const damage = (dmg) => {
+      hp -= dmg;
+    }
+
+    return {
+      name,
+      def,
+      atk,
+      hp,
+      attack,
+      status,
+      damage,
+    };
+  };
+
+  const p1 = player('sir hank');
+  const p2 = player('lord farquad', 2, 2);
+
+  p1.attack(p2);
+  p2.attack(p1);
+  p1.status();
+  p2.status();
+}
